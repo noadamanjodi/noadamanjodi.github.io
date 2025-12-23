@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Manage My Ride</title>
+
+<style>
+body{
+  margin:0;
+  padding:20px;
+  background:#eef4ff;
+  font-family:'Segoe UI',Arial;
+}
+
+.box{
+  max-width:800px;
+  margin:auto;
+  background:white;
+  padding:26px;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+}
+
+h1{
+  text-align:center;
+  color:#003f88;
+  margin-bottom:20px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:2px solid #bcd0ff;
+  font-size:16px;
+  outline:none;
+}
+
+button{
+  margin-top:14px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:#003f88;
+  color:white;
+  font-size:17px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.card{
+  margin-top:20px;
+  padding:18px;
+  background:#f9fbff;
+  border-radius:12px;
+  box-shadow:0 3px 10px rgba(0,0,0,.12);
+}
+
+.row{margin-bottom:6px;font-size:15px;}
+.bold{font-weight:700;}
+
+.btns{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+.btn{
+  flex:1;
+  text-align:center;
+  padding:10px;
+  border-radius:8px;
+  color:white;
+  font-weight:700;
+  text-decoration:none;
+}
+.edit{background:#1e88e5;}
+.cancel{background:#e53935;}
+
+.msg{
+  text-align:center;
+  margin-top:14px;
+  font-size:16px;
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>Manage My Ride</h1>
+
+<input id="phone" placeholder="Enter your phone number">
+<button onclick="findRide()">Find My Ride</button>
+
+<div id="result"></div>
+<div id="msg" class="msg"></div>
+
+</div>
+
+<script>
+const JSON_URL = "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/json/carpool.json";
+
+async function findRide(){
+
+  const phone = document.getElementById("phone").value.trim();
+  const out = document.getElementById("result");
+  const msg = document.getElementById("msg");
+
+  out.innerHTML="";
+  msg.innerHTML="";
+
+  if(phone.length < 10){
+    msg.innerHTML="❌ Enter valid phone number";
+    return;
+  }
+
+  const r = await fetch(JSON_URL+"?t="+Date.now());
+  const j = await r.json();
+  const rides = j.rides || [];
+
+  const found = rides.filter(x => String(x.phone) === phone);
+
+  if(!found.length){
+    msg.innerHTML="❌ No active ride found";
+    return;
+  }
+
+  found.forEach(x=>{
+    out.innerHTML += `
+      <div class="card">
+        <div class="row"><span class="bold">From:</span> ${x.pickup}</div>
+        <div class="row"><span class="bold">To:</span> ${x.drop}</div>
+        <div class="row"><span class="bold">Date:</span> ${x.date}</div>
+        <div class="row"><span class="bold">Time:</span> ${x.time || "—"}</div>
+        <div class="row"><span class="bold">Seats:</span> ${x.seats}</div>
+
+        <div class="btns">
+          <a class="btn edit" href="${x.editLink}" target="_blank">✏️ Edit</a>
+          <a class="btn cancel" href="${x.editLink}" target="_blank">❌ Cancel</a>
+        </div>
+      </div>
+    `;
+  });
+
+}
+</script>
+
+</body>
+</html>
