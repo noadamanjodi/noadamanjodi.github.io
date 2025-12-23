@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin – Ride Approval</title>
+
+<style>
+body{
+  margin:0;
+  padding:20px;
+  background:#eef4ff;
+  font-family:'Segoe UI',Arial;
+}
+
+.box{
+  max-width:1000px;
+  margin:auto;
+  background:white;
+  padding:26px;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+}
+
+h1{
+  text-align:center;
+  color:#003f88;
+  margin-bottom:16px;
+}
+
+/* login */
+.login{
+  text-align:center;
+}
+input{
+  padding:12px;
+  width:260px;
+  font-size:16px;
+  border-radius:10px;
+  border:2px solid #bcd0ff;
+}
+button{
+  padding:12px 20px;
+  margin-left:6px;
+  border:none;
+  border-radius:10px;
+  background:#003f88;
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* cards */
+.card{
+  background:#f9fbff;
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 3px 10px rgba(0,0,0,.12);
+  margin-bottom:14px;
+}
+
+.row{margin-bottom:6px;font-size:15px;}
+.bold{font-weight:700;}
+
+.btns{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+.approve{
+  background:#2e7d32;
+  color:white;
+  padding:10px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:700;
+  flex:1;
+  text-align:center;
+}
+.reject{
+  background:#c62828;
+  color:white;
+  padding:10px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:700;
+  flex:1;
+  text-align:center;
+}
+
+.msg{
+  text-align:center;
+  margin-top:14px;
+  font-size:16px;
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>Admin – Ride Approval Panel</h1>
+
+<div id="login" class="login">
+  <input id="pin" type="password" placeholder="Enter Admin PIN">
+  <button onclick="login()">Login</button>
+  <div id="msg" class="msg"></div>
+</div>
+
+<div id="panel" style="display:none;"></div>
+
+</div>
+
+<script>
+const ADMIN_PIN = "NOA@123";   // 🔐 CHANGE THIS
+const JSON_URL = "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/json/carpool.json";
+
+function login(){
+  if(document.getElementById("pin").value === ADMIN_PIN){
+    document.getElementById("login").style.display="none";
+    loadPending();
+  }else{
+    document.getElementById("msg").innerHTML="❌ Wrong PIN";
+  }
+}
+
+async function loadPending(){
+
+  const r = await fetch(JSON_URL+"?t="+Date.now());
+  const j = await r.json();
+  const rides = j.rides || [];
+
+  const pending = rides.filter(x => (x.status || "PENDING") === "PENDING");
+
+  const panel = document.getElementById("panel");
+  panel.style.display="block";
+  panel.innerHTML = `<div class="msg">${pending.length} pending ride(s)</div>`;
+
+  if(!pending.length){
+    panel.innerHTML += `<div class="msg">No pending approvals</div>`;
+    return;
+  }
+
+  pending.forEach(x=>{
+    panel.innerHTML += `
+      <div class="card">
+        <div class="row"><span class="bold">Name:</span> ${x.name}</div>
+        <div class="row"><span class="bold">Phone:</span> ${x.phone}</div>
+        <div class="row"><span class="bold">From:</span> ${x.pickup}</div>
+        <div class="row"><span class="bold">To:</span> ${x.drop}</div>
+        <div class="row"><span class="bold">Date:</span> ${x.date}</div>
+        <div class="row"><span class="bold">Time:</span> ${x.time || "—"}</div>
+
+        <div class="btns">
+          <a class="approve" href="${x.editLink}" target="_blank">
+            ✅ Approve
+          </a>
+          <a class="reject" href="${x.editLink}" target="_blank">
+            ❌ Reject
+          </a>
+        </div>
+      </div>
+    `;
+  });
+}
+</script>
+
+</body>
+</html>
