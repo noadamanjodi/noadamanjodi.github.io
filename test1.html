@@ -121,24 +121,6 @@ body{
   margin:6px 0;
 }
 
-/* SHARE */
-.share{
-  text-align:center;
-  margin:30px 0 10px;
-}
-.share a{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  background:#25D366;
-  color:white;
-  padding:12px 22px;
-  border-radius:30px;
-  font-size:16px;
-  font-weight:700;
-  text-decoration:none;
-}
-
 /* FOOTER */
 .footer{
   margin-top:30px;
@@ -149,6 +131,30 @@ body{
 .footer a{
   text-decoration:none;
   color:#003f88;
+}
+
+/* FLOATING WHATSAPP */
+.whatsapp-float{
+  position:fixed;
+  bottom:22px;
+  right:22px;
+  z-index:9999;
+}
+.whatsapp-float a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:58px;
+  height:58px;
+  background:#25D366;
+  color:white;
+  font-size:30px;
+  border-radius:50%;
+  text-decoration:none;
+  box-shadow:0 6px 18px rgba(0,0,0,0.35);
+}
+.whatsapp-float a:hover{
+  transform:scale(1.08);
 }
 
 /* MOBILE */
@@ -169,7 +175,7 @@ body{
 <!-- CONTENT -->
 <div class="container">
 
-  <!-- META INFO -->
+  <!-- META -->
   <div class="meta">
     <span>📅 Published on: 26 December 2025</span>
     <span>Source: Govt. of Odisha</span>
@@ -220,13 +226,6 @@ body{
 
   </div>
 
-  <!-- WHATSAPP SHARE -->
-  <div class="share">
-    <a href="https://wa.me/?text=Mobile%20Number%20Updation%20Online%20via%20Vahan%20and%20Sarathi%20Portals.%20Read%20more%20at%20https://www.noadamanjodi.com" target="_blank">
-      📲 Share on WhatsApp
-    </a>
-  </div>
-
   <!-- FOOTER -->
   <div class="footer">
     <a href="https://www.noadamanjodi.com" target="_blank">
@@ -234,6 +233,15 @@ body{
     </a>
   </div>
 
+</div>
+
+<!-- FLOATING WHATSAPP BUTTON -->
+<div class="whatsapp-float">
+  <a href="#"
+     onclick="window.open('https://wa.me/?text=' + encodeURIComponent(document.title + ' - ' + window.location.href)); return false;"
+     title="Share on WhatsApp">
+    📲
+  </a>
 </div>
 
 <!-- CAROUSEL SCRIPT -->
