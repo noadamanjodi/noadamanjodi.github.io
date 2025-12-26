@@ -208,12 +208,16 @@ const JSON_URL = "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/j
 
 /* CDN image */
 function driveImage(url){
-  try{
-    const id = url.match(/\/d\/([^/]+)/)[1];
-    return `https://lh3.googleusercontent.com/d/${id}`;
-  }catch(e){
-    return "";
-  }
+  if(!url) return "";
+
+  // Already CDN
+  if(url.includes("googleusercontent.com")) return url;
+
+  // Convert Drive viewer
+  const m = url.match(/\/d\/([^/]+)/);
+  if(m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
+
+  return "";
 }
 function fmt(d){ return new Date(d).toLocaleDateString("en-GB"); }
 function isUpcoming(ret){
@@ -223,7 +227,7 @@ function isUpcoming(ret){
 function openModal(p){
   modalContent.innerHTML=`
     <span class="close" onclick="closeModal()">×</span>
-    <img src="${driveImage(p.image)}"><br><br>
+    <img src="${driveImage(p.image)}" loading="lazy" decoding="async"><br><br>
     <strong>${p.colB}</strong><br>
     ${p.colG}<br>${p.colE}<br><br>
     DOJ: ${fmt(p.colC)}<br>
