@@ -12,7 +12,6 @@ body{
   font-family:'Segoe UI',Arial;
 }
 
-/* HEADER */
 .heading-wrap{
   text-align:center;
   margin:20px 0;
@@ -21,10 +20,8 @@ body{
   font-size:26px;
   color:#003f88;
   font-weight:700;
-  margin:0;
 }
 
-/* STRIP */
 .scroll-wrap{
   background:#fff;
   padding:20px;
@@ -35,7 +32,6 @@ body{
   gap:20px;
 }
 
-/* CARD */
 .person{
   min-width:230px;
   background:#fff;
@@ -59,7 +55,6 @@ body{
 .dept{font-size:13px;color:#555}
 .doj{font-size:12px;color:#333}
 
-/* MODAL */
 .modal{
   display:none;
   position:fixed;
@@ -117,40 +112,47 @@ function fmt(d){
 }
 
 fetch(JSON_URL)
-  .then(res => res.json())
-  .then(data => {
-    const track = document.getElementById("track");
+.then(res => res.json())
+.then(data => {
 
-    data.superannuation.forEach(p => {
-      const card = document.createElement("div");
-      card.className = "person";
+  const track = document.getElementById("track");
 
-      card.innerHTML = `
-        <img src="${p.image}">
-        <div class="name">${p.colB}</div>
-        <div class="designation">${p.colG}</div>
-        <div class="dept">${p.colE}</div>
-        <div class="doj">DOJ: ${fmt(p.colC)}</div>
+  data.superannuation.forEach(p => {
+
+    const card = document.createElement("div");
+    card.className = "person";
+
+    /* 🔑 CREATE IMG PROPERLY (iOS FIX) */
+    const img = document.createElement("img");
+    img.src = p.image;
+    img.width = 120;
+    img.height = 150;
+
+    card.appendChild(img);
+
+    card.insertAdjacentHTML("beforeend", `
+      <div class="name">${p.colB}</div>
+      <div class="designation">${p.colG}</div>
+      <div class="dept">${p.colE}</div>
+      <div class="doj">DOJ: ${fmt(p.colC)}</div>
+    `);
+
+    card.onclick = () => {
+      modalContent.innerHTML = `
+        <span class="close" onclick="modal.style.display='none'">×</span>
+        <img src="${p.image}" width="170" height="210"><br><br>
+        <strong>${p.colB}</strong><br>
+        ${p.colG}<br>${p.colE}<br><br>
+        DOJ: ${fmt(p.colC)}<br>
+        Retirement: ${fmt(p.colD)}
       `;
+      modal.style.display = "flex";
+    };
 
-      card.onclick = () => {
-        modalContent.innerHTML = `
-          <span class="close" onclick="modal.style.display='none'">×</span>
-          <img src="${p.image}"><br><br>
-          <strong>${p.colB}</strong><br>
-          ${p.colG}<br>${p.colE}<br><br>
-          DOJ: ${fmt(p.colC)}<br>
-          Retirement: ${fmt(p.colD)}
-        `;
-        modal.style.display = "flex";
-      };
-
-      track.appendChild(card);
-    });
-  })
-  .catch(err => {
-    console.error("JSON load failed:", err);
+    track.appendChild(card);
   });
+
+});
 </script>
 
 </body>
