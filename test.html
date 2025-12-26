@@ -5,8 +5,15 @@
 <title>Our Officers Retiring Soon</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- 🔑 REQUIRED FOR iOS SAFARI -->
+<!-- ✅ REQUIRED FOR iOS SAFARI -->
 <meta name="referrer" content="no-referrer">
+
+<!-- ✅ CRITICAL: ALLOW GOOGLE IMAGE CDN ON iOS -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src * data: blob: 'unsafe-inline' 'unsafe-eval';
+               img-src https://lh3.googleusercontent.com data: blob:;
+               style-src * 'unsafe-inline';
+               script-src * 'unsafe-inline' 'unsafe-eval';">
 
 <style>
 body{
@@ -108,7 +115,8 @@ body{
 </div>
 
 <script>
-const JSON_URL = "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/json/superannuation.json";
+const JSON_URL =
+  "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/json/superannuation.json";
 
 function fmt(d){
   return new Date(d).toLocaleDateString("en-GB");
@@ -124,7 +132,7 @@ fetch(JSON_URL)
     card.className="person";
 
     card.innerHTML=`
-      <img src="${p.image}">
+      <img src="${p.image}" crossorigin="anonymous">
       <div class="name">${p.colB}</div>
       <div class="designation">${p.colG}</div>
       <div class="dept">${p.colE}</div>
@@ -134,7 +142,7 @@ fetch(JSON_URL)
     card.onclick=()=>{
       modalContent.innerHTML=`
         <span class="close" onclick="modal.style.display='none'">×</span>
-        <img src="${p.image}"><br><br>
+        <img src="${p.image}" crossorigin="anonymous"><br><br>
         <strong>${p.colB}</strong><br>
         ${p.colG}<br>${p.colE}<br><br>
         DOJ: ${fmt(p.colC)}<br>
