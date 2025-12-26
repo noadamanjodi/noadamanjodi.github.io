@@ -204,18 +204,12 @@ body{
 </div>
 
 <script>
-const JSON_URL = "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/json/superannuation.json";
+const JSON_URL =
+  "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/json/superannuation.json";
 
-/* CDN image */
-function driveImage(url){
-  try{
-    const id = url.match(/\/d\/([^/]+)/)[1];
-    return `https://lh3.googleusercontent.com/d/${id}`;
-  }catch(e){
-    return "";
-  }
+function fmt(d){
+  return new Date(d).toLocaleDateString("en-GB");
 }
-function fmt(d){ return new Date(d).toLocaleDateString("en-GB"); }
 function isUpcoming(ret){
   const t=new Date(), r=new Date(ret);
   return (r-t)/(1000*60*60*24*30)<=6 && r>t;
@@ -223,7 +217,7 @@ function isUpcoming(ret){
 function openModal(p){
   modalContent.innerHTML=`
     <span class="close" onclick="closeModal()">×</span>
-    <img src="${driveImage(p.image)}"><br><br>
+    <img src="${p.image}"><br><br>
     <strong>${p.colB}</strong><br>
     ${p.colG}<br>${p.colE}<br><br>
     DOJ: ${fmt(p.colC)}<br>
@@ -233,26 +227,39 @@ function openModal(p){
   `;
   modal.style.display="flex";
 }
-function closeModal(){ modal.style.display="none"; }
+function closeModal(){
+  modal.style.display="none";
+}
 
-fetch(JSON_URL).then(r=>r.json()).then(data=>{
+fetch(JSON_URL)
+.then(r=>r.json())
+.then(data=>{
   const track=document.getElementById("track");
+
   data.superannuation.concat(data.superannuation).forEach(p=>{
     const c=document.createElement("div");
     c.className="person"+(isUpcoming(p.colD)?" upcoming":"");
-    if(isUpcoming(p.colD)) c.innerHTML+=`<div class="badge">Upcoming</div>`;
+
+    if(isUpcoming(p.colD)){
+      c.innerHTML+=`<div class="badge">Upcoming</div>`;
+    }
+
     c.innerHTML+=`
-      <img src="${driveImage(p.image)}">
+      <img src="${p.image}">
       <div class="name">${p.colB}</div>
       <div class="designation">${p.colG}</div>
       <div class="dept">${p.colE}</div>
       <div class="doj">DOJ: ${fmt(p.colC)}</div>
     `;
+
     c.onclick=()=>openModal(p);
     track.appendChild(c);
   });
 });
-modal.onclick=e=>{ if(e.target===modal) closeModal(); };
+
+modal.onclick=e=>{
+  if(e.target===modal) closeModal();
+};
 </script>
 
 </body>
