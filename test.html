@@ -10,7 +10,6 @@ body{
   margin:0;
   background:#eef4ff;
   font-family:'Segoe UI',Arial;
-  perspective:1200px;
 }
 
 /* ===== HEADING ===== */
@@ -32,23 +31,17 @@ body{
   border-radius:4px;
 }
 
-/* ===== OUTER STRIP ===== */
+/* ===== STRIP ===== */
 .scroll-wrap{
   width:100%;
-  overflow:hidden;
+  overflow-x:auto;
   background:#ffffff;
-  padding:22px 0;
+  padding:22px 12px;
   box-shadow:0 8px 22px rgba(0,0,0,0.18);
 }
-
-/* ===== MOVING ROW ===== */
 .scroll-track{
   display:flex;
-  gap:28px;
-  animation: scrollLeft 50s linear infinite;
-}
-.scroll-wrap:hover .scroll-track{
-  animation-play-state: paused;
+  gap:22px;
 }
 
 /* ===== CARD ===== */
@@ -58,30 +51,13 @@ body{
   border-radius:18px;
   padding:16px;
   text-align:center;
-  box-shadow:
-    0 18px 35px rgba(0,0,0,0.22),
-    inset 0 1px 0 rgba(255,255,255,0.6);
+  box-shadow:0 12px 28px rgba(0,0,0,0.18);
   cursor:pointer;
   position:relative;
-  transform-style:preserve-3d;
-  transition:
-    transform .45s cubic-bezier(.25,.8,.25,1),
-    box-shadow .45s;
-  animation: float 6s ease-in-out infinite;
+  transition:0.3s;
 }
-
-.scroll-wrap:hover .person{
-  animation-play-state: paused;
-}
-
 .person:hover{
-  transform:
-    translateY(-14px)
-    rotateX(6deg)
-    rotateY(-6deg)
-    scale(1.05);
-  box-shadow:
-    0 30px 55px rgba(0,0,0,0.35);
+  transform:translateY(-6px);
 }
 
 .upcoming{
@@ -92,12 +68,10 @@ body{
   top:10px;
   left:10px;
   background:#f9a825;
-  color:#000;
   font-size:11px;
-  padding:4px 9px;
-  border-radius:7px;
+  padding:4px 8px;
+  border-radius:6px;
   font-weight:700;
-  box-shadow:0 3px 8px rgba(0,0,0,.25);
 }
 
 /* IMAGE */
@@ -127,18 +101,6 @@ body{
   font-size:12px;
   margin-top:4px;
   color:#333;
-}
-
-/* ===== FLOAT ===== */
-@keyframes float{
-  0%,100%{ transform:translateY(0); }
-  50%{ transform:translateY(-6px); }
-}
-
-/* ===== SCROLL ===== */
-@keyframes scrollLeft{
-  from{ transform:translateX(100%); }
-  to{ transform:translateX(-100%); }
 }
 
 /* ===== MODAL ===== */
@@ -197,13 +159,15 @@ body{
 <script>
 const JSON_URL = "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/json/superannuation.json";
 
-/* ✅ FINAL MOBILE-SAFE IMAGE BUILDER (FILE ID ONLY) */
+/* ✅ OFFICIAL, MOBILE-SAFE IMAGE URL */
 function driveImage(fileId){
   if(!fileId) return "";
-  return `https://drive.google.com/thumbnail?id=${fileId}&sz=w480`;
+  return `https://drive.google.com/thumbnail?id=${fileId}&sz=w400`;
 }
 
-function fmt(d){ return new Date(d).toLocaleDateString("en-GB"); }
+function fmt(d){
+  return new Date(d).toLocaleDateString("en-GB");
+}
 
 function isUpcoming(ret){
   const t=new Date(), r=new Date(ret);
@@ -213,10 +177,7 @@ function isUpcoming(ret){
 function openModal(p){
   modalContent.innerHTML=`
     <span class="close" onclick="closeModal()">×</span>
-    <img src="${driveImage(p.image)}"
-         loading="lazy"
-         decoding="async"
-         referrerpolicy="no-referrer"><br><br>
+    <img src="${driveImage(p.image)}"><br><br>
     <strong>${p.colB}</strong><br>
     ${p.colG}<br>${p.colE}<br><br>
     DOJ: ${fmt(p.colC)}<br>
@@ -227,32 +188,39 @@ function openModal(p){
   modal.style.display="flex";
 }
 
-function closeModal(){ modal.style.display="none"; }
+function closeModal(){
+  modal.style.display="none";
+}
 
 fetch(JSON_URL)
 .then(r=>r.json())
 .then(data=>{
   const track=document.getElementById("track");
-  data.superannuation.concat(data.superannuation).forEach(p=>{
-    const c=document.createElement("div");
-    c.className="person"+(isUpcoming(p.colD)?" upcoming":"");
-    if(isUpcoming(p.colD)) c.innerHTML+=`<div class="badge">Upcoming</div>`;
-    c.innerHTML+=`
-      <img src="${driveImage(p.image)}"
-           loading="lazy"
-           decoding="async"
-           referrerpolicy="no-referrer">
+
+  data.superannuation.forEach(p=>{
+    const card=document.createElement("div");
+    card.className="person"+(isUpcoming(p.colD)?" upcoming":"");
+
+    if(isUpcoming(p.colD)){
+      card.innerHTML+=`<div class="badge">Upcoming</div>`;
+    }
+
+    card.innerHTML+=`
+      <img src="${driveImage(p.image)}">
       <div class="name">${p.colB}</div>
       <div class="designation">${p.colG}</div>
       <div class="dept">${p.colE}</div>
       <div class="doj">DOJ: ${fmt(p.colC)}</div>
     `;
-    c.onclick=()=>openModal(p);
-    track.appendChild(c);
+
+    card.onclick=()=>openModal(p);
+    track.appendChild(card);
   });
 });
 
-modal.onclick=e=>{ if(e.target===modal) closeModal(); };
+modal.onclick=e=>{
+  if(e.target===modal) closeModal();
+};
 </script>
 
 </body>
