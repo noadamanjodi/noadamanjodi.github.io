@@ -107,7 +107,6 @@ body{
   object-fit:cover;
   border-radius:14px;
   margin-bottom:10px;
-  transform:translateZ(30px);
 }
 
 /* TEXT */
@@ -198,18 +197,10 @@ body{
 <script>
 const JSON_URL = "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/json/superannuation.json";
 
-/* 🔒 MOBILE-SAFE IMAGE URL */
-function driveImage(url){
-  if(!url) return "";
-
-  if(url.includes("googleusercontent.com")){
-    return url + "=w480";
-  }
-
-  const m = url.match(/\/d\/([^/]+)/);
-  if(m) return `https://lh3.googleusercontent.com/d/${m[1]}=w480`;
-
-  return "";
+/* ✅ FINAL MOBILE-SAFE IMAGE BUILDER (FILE ID ONLY) */
+function driveImage(fileId){
+  if(!fileId) return "";
+  return `https://drive.google.com/thumbnail?id=${fileId}&sz=w480`;
 }
 
 function fmt(d){ return new Date(d).toLocaleDateString("en-GB"); }
