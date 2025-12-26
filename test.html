@@ -2,158 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Our Officers Retiring Soon</title>
+<title>Image Test</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-body{
-  margin:0;
-  background:#eef4ff;
-  font-family:'Segoe UI',Arial;
-}
-
-.heading-wrap{
-  text-align:center;
-  margin:20px 0;
-}
-.heading-wrap h2{
-  font-size:26px;
-  color:#003f88;
-  font-weight:700;
-}
-
-.scroll-wrap{
-  background:#fff;
-  padding:20px;
-  overflow-x:auto;
-}
-.scroll-track{
-  display:flex;
-  gap:20px;
-}
-
-.person{
-  min-width:230px;
-  background:#fff;
-  border-radius:16px;
-  padding:16px;
-  text-align:center;
-  box-shadow:0 6px 18px rgba(0,0,0,.2);
-  cursor:pointer;
-}
-
-.person img{
-  width:120px;
-  height:150px;
-  object-fit:cover;
-  border-radius:12px;
-  margin-bottom:10px;
-}
-
-.name{font-weight:700;color:#003f88}
-.designation{font-size:13px;font-weight:600}
-.dept{font-size:13px;color:#555}
-.doj{font-size:12px;color:#333}
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  justify-content:center;
-  align-items:center;
-}
-.modal-content{
-  background:#fff;
-  padding:20px;
-  border-radius:18px;
-  width:90%;
-  max-width:380px;
-  text-align:center;
-}
-.modal-content img{
-  width:170px;
-  height:210px;
-  object-fit:cover;
-  border-radius:14px;
-}
-.close{
-  position:absolute;
-  top:10px;
-  right:16px;
-  font-size:24px;
-  cursor:pointer;
-}
-</style>
 </head>
 
-<body>
+<body style="margin:20px;font-family:Arial">
 
-<div class="heading-wrap">
-  <h2>🎖️ Our Officers Retiring Soon</h2>
-</div>
+<h2>iPhone Image Test</h2>
 
-<div class="scroll-wrap">
-  <div class="scroll-track" id="track"></div>
-</div>
+<p>If this image loads on iPhone, image hosting is NOT the issue.</p>
 
-<div class="modal" id="modal">
-  <div class="modal-content" id="modalContent">
-    <span class="close" onclick="modal.style.display='none'">×</span>
-  </div>
-</div>
-
-<script>
-const JSON_URL =
-  "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/json/superannuation.json";
-
-function fmt(d){
-  return new Date(d).toLocaleDateString("en-GB");
-}
-
-fetch(JSON_URL)
-.then(res => res.json())
-.then(data => {
-
-  const track = document.getElementById("track");
-
-  data.superannuation.forEach(p => {
-
-    const card = document.createElement("div");
-    card.className = "person";
-
-    /* 🔑 CREATE IMG PROPERLY (iOS FIX) */
-    const img = document.createElement("img");
-    img.src = p.image;
-    img.width = 120;
-    img.height = 150;
-
-    card.appendChild(img);
-
-    card.insertAdjacentHTML("beforeend", `
-      <div class="name">${p.colB}</div>
-      <div class="designation">${p.colG}</div>
-      <div class="dept">${p.colE}</div>
-      <div class="doj">DOJ: ${fmt(p.colC)}</div>
-    `);
-
-    card.onclick = () => {
-      modalContent.innerHTML = `
-        <span class="close" onclick="modal.style.display='none'">×</span>
-        <img src="${p.image}" width="170" height="210"><br><br>
-        <strong>${p.colB}</strong><br>
-        ${p.colG}<br>${p.colE}<br><br>
-        DOJ: ${fmt(p.colC)}<br>
-        Retirement: ${fmt(p.colD)}
-      `;
-      modal.style.display = "flex";
-    };
-
-    track.appendChild(card);
-  });
-
-});
-</script>
+<img
+  src="https://lh3.googleusercontent.com/d/1v-t6PBZEtULUVjTDIx0uA6M6qjwRmKhB"
+  width="150"
+  height="200"
+  style="border:2px solid red;"
+>
 
 </body>
 </html>
