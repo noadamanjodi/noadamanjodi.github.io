@@ -5,6 +5,9 @@
 <title>Our Officers Retiring Soon</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- 🔑 REQUIRED FOR iOS SAFARI -->
+<meta name="referrer" content="no-referrer">
+
 <style>
 body{
   margin:0;
@@ -121,7 +124,7 @@ fetch(JSON_URL)
     card.className="person";
 
     card.innerHTML=`
-      <img src="${p.image}" referrerpolicy="no-referrer">
+      <img src="${p.image}">
       <div class="name">${p.colB}</div>
       <div class="designation">${p.colG}</div>
       <div class="dept">${p.colE}</div>
@@ -131,7 +134,7 @@ fetch(JSON_URL)
     card.onclick=()=>{
       modalContent.innerHTML=`
         <span class="close" onclick="modal.style.display='none'">×</span>
-        <img src="${p.image}" referrerpolicy="no-referrer"><br><br>
+        <img src="${p.image}"><br><br>
         <strong>${p.colB}</strong><br>
         ${p.colG}<br>${p.colE}<br><br>
         DOJ: ${fmt(p.colC)}<br>
