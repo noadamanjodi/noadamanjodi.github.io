@@ -12,10 +12,10 @@ body{
   font-family:'Segoe UI',Arial;
 }
 
-/* ===== HEADING ===== */
+/* HEADER */
 .heading-wrap{
   text-align:center;
-  margin:20px 0 10px;
+  margin:20px 0;
 }
 .heading-wrap h2{
   font-size:26px;
@@ -23,118 +23,71 @@ body{
   font-weight:700;
   margin:0;
 }
-.heading-wrap .underline{
-  width:180px;
-  height:4px;
-  background:linear-gradient(90deg,#f9a825,#ffd54f);
-  margin:8px auto 0;
-  border-radius:4px;
-}
 
-/* ===== STRIP ===== */
+/* STRIP */
 .scroll-wrap{
-  width:100%;
+  background:#fff;
+  padding:20px;
   overflow-x:auto;
-  background:#ffffff;
-  padding:22px 12px;
-  box-shadow:0 8px 22px rgba(0,0,0,0.18);
 }
 .scroll-track{
   display:flex;
-  gap:22px;
+  gap:20px;
 }
 
-/* ===== CARD ===== */
+/* CARD */
 .person{
   min-width:230px;
   background:#fff;
-  border-radius:18px;
+  border-radius:16px;
   padding:16px;
   text-align:center;
-  box-shadow:0 12px 28px rgba(0,0,0,0.18);
+  box-shadow:0 6px 18px rgba(0,0,0,.2);
   cursor:pointer;
-  position:relative;
-  transition:0.3s;
-}
-.person:hover{
-  transform:translateY(-6px);
 }
 
-.upcoming{
-  border:3px solid #f9a825;
-}
-.badge{
-  position:absolute;
-  top:10px;
-  left:10px;
-  background:#f9a825;
-  font-size:11px;
-  padding:4px 8px;
-  border-radius:6px;
-  font-weight:700;
-}
-
-/* IMAGE */
 .person img{
   width:120px;
   height:150px;
   object-fit:cover;
-  border-radius:14px;
+  border-radius:12px;
   margin-bottom:10px;
 }
 
-/* TEXT */
-.name{
-  font-weight:700;
-  font-size:15px;
-  color:#003f88;
-}
-.designation{
-  font-size:13px;
-  font-weight:600;
-}
-.dept{
-  font-size:13px;
-  color:#555;
-}
-.doj{
-  font-size:12px;
-  margin-top:4px;
-  color:#333;
-}
+.name{font-weight:700;color:#003f88}
+.designation{font-size:13px;font-weight:600}
+.dept{font-size:13px;color:#555}
+.doj{font-size:12px;color:#333}
 
-/* ===== MODAL ===== */
+/* MODAL */
 .modal{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.65);
-  align-items:center;
+  background:rgba(0,0,0,.6);
   justify-content:center;
-  z-index:999;
+  align-items:center;
 }
 .modal-content{
   background:#fff;
-  padding:24px;
-  border-radius:20px;
-  max-width:380px;
+  padding:20px;
+  border-radius:18px;
   width:90%;
+  max-width:380px;
   text-align:center;
-  position:relative;
 }
 .modal-content img{
   width:170px;
   height:210px;
-  border-radius:16px;
   object-fit:cover;
+  border-radius:14px;
 }
 .close{
   position:absolute;
-  top:12px;
+  top:10px;
   right:16px;
   font-size:24px;
   cursor:pointer;
-  font-weight:700;
 }
 </style>
 </head>
@@ -143,7 +96,6 @@ body{
 
 <div class="heading-wrap">
   <h2>🎖️ Our Officers Retiring Soon</h2>
-  <div class="underline"></div>
 </div>
 
 <div class="scroll-wrap">
@@ -152,44 +104,15 @@ body{
 
 <div class="modal" id="modal">
   <div class="modal-content" id="modalContent">
-    <span class="close" onclick="closeModal()">×</span>
+    <span class="close" onclick="modal.style.display='none'">×</span>
   </div>
 </div>
 
 <script>
 const JSON_URL = "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/json/superannuation.json";
 
-/* ✅ EXACT SAME IMAGE METHOD AS MEMBERS DIRECTORY */
-function driveImage(fileId){
-  if(!fileId) return "";
-  return "https://lh3.googleusercontent.com/d/" + fileId;
-}
-
 function fmt(d){
   return new Date(d).toLocaleDateString("en-GB");
-}
-
-function isUpcoming(ret){
-  const t=new Date(), r=new Date(ret);
-  return (r-t)/(1000*60*60*24*30)<=6 && r>t;
-}
-
-function openModal(p){
-  modalContent.innerHTML=`
-    <span class="close" onclick="closeModal()">×</span>
-    <img src="${driveImage(p.image)}"><br><br>
-    <strong>${p.colB}</strong><br>
-    ${p.colG}<br>${p.colE}<br><br>
-    DOJ: ${fmt(p.colC)}<br>
-    Retirement: ${fmt(p.colD)}<br><br>
-    📞 ${p.colI}<br>
-    ✉ ${p.colJ}
-  `;
-  modal.style.display="flex";
-}
-
-function closeModal(){
-  modal.style.display="none";
 }
 
 fetch(JSON_URL)
@@ -199,28 +122,31 @@ fetch(JSON_URL)
 
   data.superannuation.forEach(p=>{
     const card=document.createElement("div");
-    card.className="person"+(isUpcoming(p.colD)?" upcoming":"");
+    card.className="person";
 
-    if(isUpcoming(p.colD)){
-      card.innerHTML+=`<div class="badge">Upcoming</div>`;
-    }
-
-    card.innerHTML+=`
-      <img src="${driveImage(p.image)}">
+    card.innerHTML=`
+      <img src="${p.image}">
       <div class="name">${p.colB}</div>
       <div class="designation">${p.colG}</div>
       <div class="dept">${p.colE}</div>
       <div class="doj">DOJ: ${fmt(p.colC)}</div>
     `;
 
-    card.onclick=()=>openModal(p);
+    card.onclick=()=>{
+      modalContent.innerHTML=`
+        <span class="close" onclick="modal.style.display='none'">×</span>
+        <img src="${p.image}"><br><br>
+        <strong>${p.colB}</strong><br>
+        ${p.colG}<br>${p.colE}<br><br>
+        DOJ: ${fmt(p.colC)}<br>
+        Retirement: ${fmt(p.colD)}
+      `;
+      modal.style.display="flex";
+    };
+
     track.appendChild(card);
   });
 });
-
-modal.onclick=e=>{
-  if(e.target===modal) closeModal();
-};
 </script>
 
 </body>
