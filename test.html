@@ -2,22 +2,258 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Image Test</title>
+<title>Our Officers Retiring Soon</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;
+  background:#eef4ff;
+  font-family:'Segoe UI',Arial;
+  perspective:1200px;
+}
+
+/* ===== HEADING ===== */
+.heading-wrap{
+  text-align:center;
+  margin:20px 0 10px;
+}
+.heading-wrap h2{
+  font-size:26px;
+  color:#003f88;
+  font-weight:700;
+  margin:0;
+}
+.heading-wrap .underline{
+  width:180px;
+  height:4px;
+  background:linear-gradient(90deg,#f9a825,#ffd54f);
+  margin:8px auto 0;
+  border-radius:4px;
+}
+
+/* ===== OUTER STRIP ===== */
+.scroll-wrap{
+  width:100%;
+  overflow:hidden;
+  background:#ffffff;
+  padding:22px 0;
+  box-shadow:0 8px 22px rgba(0,0,0,0.18);
+}
+
+/* ===== MOVING ROW ===== */
+.scroll-track{
+  display:flex;
+  gap:28px;
+  animation: scrollLeft 50s linear infinite;
+}
+.scroll-wrap:hover .scroll-track{
+  animation-play-state: paused;
+}
+
+/* ===== CARD ===== */
+.person{
+  min-width:230px;
+  background:#fff;
+  border-radius:18px;
+  padding:16px;
+  text-align:center;
+  box-shadow:
+    0 18px 35px rgba(0,0,0,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+  cursor:pointer;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:
+    transform .45s cubic-bezier(.25,.8,.25,1),
+    box-shadow .45s;
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pause float when scrolling paused */
+.scroll-wrap:hover .person{
+  animation-play-state: paused;
+}
+
+/* 3D hover tilt */
+.person:hover{
+  transform:
+    translateY(-14px)
+    rotateX(6deg)
+    rotateY(-6deg)
+    scale(1.05);
+  box-shadow:
+    0 30px 55px rgba(0,0,0,0.35);
+}
+
+/* Upcoming highlight */
+.upcoming{
+  border:3px solid #f9a825;
+}
+.badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:#f9a825;
+  color:#000;
+  font-size:11px;
+  padding:4px 9px;
+  border-radius:7px;
+  font-weight:700;
+  box-shadow:0 3px 8px rgba(0,0,0,.25);
+}
+
+/* IMAGE */
+.person img{
+  width:120px;
+  height:150px;
+  object-fit:cover;
+  border-radius:14px;
+  margin-bottom:10px;
+  transform:translateZ(30px);
+}
+
+/* TEXT */
+.name{
+  font-weight:700;
+  font-size:15px;
+  color:#003f88;
+}
+.designation{
+  font-size:13px;
+  font-weight:600;
+}
+.dept{
+  font-size:13px;
+  color:#555;
+}
+.doj{
+  font-size:12px;
+  margin-top:4px;
+  color:#333;
+}
+
+/* ===== FLOATING ANIMATION ===== */
+@keyframes float{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-6px); }
+}
+
+/* ===== SCROLL ANIMATION ===== */
+@keyframes scrollLeft{
+  from{ transform:translateX(100%); }
+  to{ transform:translateX(-100%); }
+}
+
+/* ===== MODAL ===== */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+.modal-content{
+  background:#fff;
+  padding:24px;
+  border-radius:20px;
+  max-width:380px;
+  width:90%;
+  text-align:center;
+  position:relative;
+  animation: pop .35s ease;
+}
+@keyframes pop{
+  from{ transform:scale(.8); opacity:0; }
+  to{ transform:scale(1); opacity:1; }
+}
+.modal-content img{
+  width:170px;
+  height:210px;
+  border-radius:16px;
+  object-fit:cover;
+}
+.close{
+  position:absolute;
+  top:12px;
+  right:16px;
+  font-size:24px;
+  cursor:pointer;
+  font-weight:700;
+}
+</style>
 </head>
 
-<body style="margin:20px;font-family:Arial">
+<body>
 
-<h2>iPhone Image Test</h2>
+<div class="heading-wrap">
+  <h2>🎖️ Our Officers Retiring Soon</h2>
+  <div class="underline"></div>
+</div>
 
-<p>If this image loads on iPhone, image hosting is NOT the issue.</p>
+<div class="scroll-wrap">
+  <div class="scroll-track" id="track"></div>
+</div>
 
-<img
-  src="https://lh3.googleusercontent.com/d/1v-t6PBZEtULUVjTDIx0uA6M6qjwRmKhB"
-  width="150"
-  height="200"
-  style="border:2px solid red;"
->
+<div class="modal" id="modal">
+  <div class="modal-content" id="modalContent">
+    <span class="close" onclick="closeModal()">×</span>
+  </div>
+</div>
+
+<script>
+const JSON_URL = "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/json/superannuation.json";
+
+/* CDN image */
+function driveImage(url){
+  try{
+    const id = url.match(/\/d\/([^/]+)/)[1];
+    return `https://lh3.googleusercontent.com/d/${id}`;
+  }catch(e){
+    return "";
+  }
+}
+function fmt(d){ return new Date(d).toLocaleDateString("en-GB"); }
+function isUpcoming(ret){
+  const t=new Date(), r=new Date(ret);
+  return (r-t)/(1000*60*60*24*30)<=6 && r>t;
+}
+function openModal(p){
+  modalContent.innerHTML=`
+    <span class="close" onclick="closeModal()">×</span>
+    <img src="${driveImage(p.image)}"><br><br>
+    <strong>${p.colB}</strong><br>
+    ${p.colG}<br>${p.colE}<br><br>
+    DOJ: ${fmt(p.colC)}<br>
+    Retirement: ${fmt(p.colD)}<br><br>
+    📞 ${p.colI}<br>
+    ✉ ${p.colJ}
+  `;
+  modal.style.display="flex";
+}
+function closeModal(){ modal.style.display="none"; }
+
+fetch(JSON_URL).then(r=>r.json()).then(data=>{
+  const track=document.getElementById("track");
+  data.superannuation.concat(data.superannuation).forEach(p=>{
+    const c=document.createElement("div");
+    c.className="person"+(isUpcoming(p.colD)?" upcoming":"");
+    if(isUpcoming(p.colD)) c.innerHTML+=`<div class="badge">Upcoming</div>`;
+    c.innerHTML+=`
+      <img src="${driveImage(p.image)}">
+      <div class="name">${p.colB}</div>
+      <div class="designation">${p.colG}</div>
+      <div class="dept">${p.colE}</div>
+      <div class="doj">DOJ: ${fmt(p.colC)}</div>
+    `;
+    c.onclick=()=>openModal(p);
+    track.appendChild(c);
+  });
+});
+modal.onclick=e=>{ if(e.target===modal) closeModal(); };
+</script>
 
 </body>
 </html>
