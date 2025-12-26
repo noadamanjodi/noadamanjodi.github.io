@@ -5,15 +5,18 @@
 <title>Our Officers Retiring Soon</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- ✅ REQUIRED FOR iOS SAFARI -->
+<!-- REQUIRED FOR iOS -->
 <meta name="referrer" content="no-referrer">
 
-<!-- ✅ CRITICAL: ALLOW GOOGLE IMAGE CDN ON iOS -->
+<!-- ✅ FINAL CSP (Desktop + Android + iPhone SAFE) -->
 <meta http-equiv="Content-Security-Policy"
-      content="default-src * data: blob: 'unsafe-inline' 'unsafe-eval';
-               img-src https://lh3.googleusercontent.com data: blob:;
-               style-src * 'unsafe-inline';
-               script-src * 'unsafe-inline' 'unsafe-eval';">
+      content="
+        default-src 'self' https: data: blob:;
+        script-src 'self' https: 'unsafe-inline';
+        style-src  'self' https: 'unsafe-inline';
+        img-src    https://lh3.googleusercontent.com data:;
+        connect-src https://raw.githubusercontent.com;
+      ">
 
 <style>
 body{
@@ -21,7 +24,6 @@ body{
   background:#eef4ff;
   font-family:'Segoe UI',Arial;
 }
-
 .heading-wrap{
   text-align:center;
   margin:20px 0;
@@ -30,9 +32,7 @@ body{
   font-size:26px;
   color:#003f88;
   font-weight:700;
-  margin:0;
 }
-
 .scroll-wrap{
   background:#fff;
   padding:20px;
@@ -42,7 +42,6 @@ body{
   display:flex;
   gap:20px;
 }
-
 .person{
   min-width:230px;
   background:#fff;
@@ -52,7 +51,6 @@ body{
   box-shadow:0 6px 18px rgba(0,0,0,.2);
   cursor:pointer;
 }
-
 .person img{
   width:120px;
   height:150px;
@@ -60,7 +58,6 @@ body{
   border-radius:12px;
   margin-bottom:10px;
 }
-
 .name{font-weight:700;color:#003f88}
 .designation{font-size:13px;font-weight:600}
 .dept{font-size:13px;color:#555}
@@ -132,7 +129,7 @@ fetch(JSON_URL)
     card.className="person";
 
     card.innerHTML=`
-      <img src="${p.image}" crossorigin="anonymous">
+      <img src="${p.image}">
       <div class="name">${p.colB}</div>
       <div class="designation">${p.colG}</div>
       <div class="dept">${p.colE}</div>
@@ -142,7 +139,7 @@ fetch(JSON_URL)
     card.onclick=()=>{
       modalContent.innerHTML=`
         <span class="close" onclick="modal.style.display='none'">×</span>
-        <img src="${p.image}" crossorigin="anonymous"><br><br>
+        <img src="${p.image}"><br><br>
         <strong>${p.colB}</strong><br>
         ${p.colG}<br>${p.colE}<br><br>
         DOJ: ${fmt(p.colC)}<br>
@@ -153,6 +150,9 @@ fetch(JSON_URL)
 
     track.appendChild(card);
   });
+})
+.catch(err=>{
+  console.error("JSON load failed", err);
 });
 </script>
 
