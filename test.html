@@ -70,12 +70,10 @@ body{
   animation: float 6s ease-in-out infinite;
 }
 
-/* Pause float when scrolling paused */
 .scroll-wrap:hover .person{
   animation-play-state: paused;
 }
 
-/* 3D hover tilt */
 .person:hover{
   transform:
     translateY(-14px)
@@ -86,7 +84,6 @@ body{
     0 30px 55px rgba(0,0,0,0.35);
 }
 
-/* Upcoming highlight */
 .upcoming{
   border:3px solid #f9a825;
 }
@@ -133,13 +130,13 @@ body{
   color:#333;
 }
 
-/* ===== FLOATING ANIMATION ===== */
+/* ===== FLOAT ===== */
 @keyframes float{
   0%,100%{ transform:translateY(0); }
   50%{ transform:translateY(-6px); }
 }
 
-/* ===== SCROLL ANIMATION ===== */
+/* ===== SCROLL ===== */
 @keyframes scrollLeft{
   from{ transform:translateX(100%); }
   to{ transform:translateX(-100%); }
@@ -163,11 +160,6 @@ body{
   width:90%;
   text-align:center;
   position:relative;
-  animation: pop .35s ease;
-}
-@keyframes pop{
-  from{ transform:scale(.8); opacity:0; }
-  to{ transform:scale(1); opacity:1; }
 }
 .modal-content img{
   width:170px;
@@ -206,28 +198,34 @@ body{
 <script>
 const JSON_URL = "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/json/superannuation.json";
 
-/* CDN image */
+/* 🔒 MOBILE-SAFE IMAGE URL */
 function driveImage(url){
   if(!url) return "";
 
-  // Already CDN
-  if(url.includes("googleusercontent.com")) return url;
+  if(url.includes("googleusercontent.com")){
+    return url + "=w480";
+  }
 
-  // Convert Drive viewer
   const m = url.match(/\/d\/([^/]+)/);
-  if(m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
+  if(m) return `https://lh3.googleusercontent.com/d/${m[1]}=w480`;
 
   return "";
 }
+
 function fmt(d){ return new Date(d).toLocaleDateString("en-GB"); }
+
 function isUpcoming(ret){
   const t=new Date(), r=new Date(ret);
   return (r-t)/(1000*60*60*24*30)<=6 && r>t;
 }
+
 function openModal(p){
   modalContent.innerHTML=`
     <span class="close" onclick="closeModal()">×</span>
-    <img src="${driveImage(p.image)}" loading="lazy" decoding="async"><br><br>
+    <img src="${driveImage(p.image)}"
+         loading="lazy"
+         decoding="async"
+         referrerpolicy="no-referrer"><br><br>
     <strong>${p.colB}</strong><br>
     ${p.colG}<br>${p.colE}<br><br>
     DOJ: ${fmt(p.colC)}<br>
@@ -237,16 +235,22 @@ function openModal(p){
   `;
   modal.style.display="flex";
 }
+
 function closeModal(){ modal.style.display="none"; }
 
-fetch(JSON_URL).then(r=>r.json()).then(data=>{
+fetch(JSON_URL)
+.then(r=>r.json())
+.then(data=>{
   const track=document.getElementById("track");
   data.superannuation.concat(data.superannuation).forEach(p=>{
     const c=document.createElement("div");
     c.className="person"+(isUpcoming(p.colD)?" upcoming":"");
     if(isUpcoming(p.colD)) c.innerHTML+=`<div class="badge">Upcoming</div>`;
     c.innerHTML+=`
-      <img src="${driveImage(p.image)}">
+      <img src="${driveImage(p.image)}"
+           loading="lazy"
+           decoding="async"
+           referrerpolicy="no-referrer">
       <div class="name">${p.colB}</div>
       <div class="designation">${p.colG}</div>
       <div class="dept">${p.colE}</div>
@@ -256,6 +260,7 @@ fetch(JSON_URL).then(r=>r.json()).then(data=>{
     track.appendChild(c);
   });
 });
+
 modal.onclick=e=>{ if(e.target===modal) closeModal(); };
 </script>
 
