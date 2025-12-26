@@ -12,7 +12,6 @@ body{
   font-family:'Segoe UI',Arial;
 }
 
-/* HEADER */
 .heading-wrap{
   text-align:center;
   margin:20px 0;
@@ -24,7 +23,6 @@ body{
   margin:0;
 }
 
-/* STRIP */
 .scroll-wrap{
   background:#fff;
   padding:20px;
@@ -35,7 +33,6 @@ body{
   gap:20px;
 }
 
-/* CARD */
 .person{
   min-width:230px;
   background:#fff;
@@ -59,7 +56,6 @@ body{
 .dept{font-size:13px;color:#555}
 .doj{font-size:12px;color:#333}
 
-/* MODAL */
 .modal{
   display:none;
   position:fixed;
@@ -125,7 +121,7 @@ fetch(JSON_URL)
     card.className="person";
 
     card.innerHTML=`
-      <img src="${p.image}">
+      <img src="${p.image}" referrerpolicy="no-referrer">
       <div class="name">${p.colB}</div>
       <div class="designation">${p.colG}</div>
       <div class="dept">${p.colE}</div>
@@ -135,7 +131,7 @@ fetch(JSON_URL)
     card.onclick=()=>{
       modalContent.innerHTML=`
         <span class="close" onclick="modal.style.display='none'">×</span>
-        <img src="${p.image}"><br><br>
+        <img src="${p.image}" referrerpolicy="no-referrer"><br><br>
         <strong>${p.colB}</strong><br>
         ${p.colG}<br>${p.colE}<br><br>
         DOJ: ${fmt(p.colC)}<br>
