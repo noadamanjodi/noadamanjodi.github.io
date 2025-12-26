@@ -159,10 +159,10 @@ body{
 <script>
 const JSON_URL = "https://raw.githubusercontent.com/noadamanjodi/noa-data/main/json/superannuation.json";
 
-/* ✅ OFFICIAL, MOBILE-SAFE IMAGE URL */
+/* ✅ EXACT SAME IMAGE METHOD AS MEMBERS DIRECTORY */
 function driveImage(fileId){
   if(!fileId) return "";
-  return `https://drive.google.com/thumbnail?id=${fileId}&sz=w400`;
+  return "https://lh3.googleusercontent.com/d/" + fileId;
 }
 
 function fmt(d){
