@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Supreme Court Stays Aravalli Definition Order | NOA Damanjodi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;
+  padding:0;
+  font-family:"Segoe UI", Arial, sans-serif;
+  background:#eef4ff;
+  color:#222;
+}
+
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,#08355a,#0a4a82);
+  color:#fff;
+  padding:22px 18px;
+  text-align:center;
+  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+}
+.header h1{
+  margin:0;
+  font-size:26px;
+  font-weight:700;
+}
+
+/* WRAPPER */
+.container{
+  max-width:1100px;
+  margin:25px auto;
+  background:#fff;
+  border-radius:18px;
+  padding:28px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* META INFO */
+.meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  font-size:14.5px;
+  color:#555;
+  margin-bottom:18px;
+}
+.meta span{
+  background:#f1f5ff;
+  padding:6px 12px;
+  border-radius:20px;
+  font-weight:600;
+}
+
+/* IMAGE */
+.news-img{
+  width:100%;
+  border-radius:14px;
+  margin-bottom:22px;
+}
+
+/* CONTENT */
+.content p{
+  font-size:16.5px;
+  line-height:1.7;
+  margin-bottom:18px;
+  text-align:justify;
+}
+
+/* HIGHLIGHT */
+.highlight{
+  background:#f4f8ff;
+  border-left:6px solid #0057d9;
+  padding:16px 18px;
+  border-radius:10px;
+  margin:22px 0;
+  font-size:16px;
+}
+
+/* FOOTER */
+.footer{
+  margin-top:30px;
+  text-align:center;
+  font-size:18px;
+  font-weight:700;
+}
+.footer a{
+  text-decoration:none;
+  color:#003f88;
+}
+
+/* FLOATING WHATSAPP */
+.whatsapp-float{
+  position:fixed;
+  bottom:22px;
+  right:22px;
+  z-index:9999;
+}
+.whatsapp-float a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:58px;
+  height:58px;
+  background:#25D366;
+  color:white;
+  font-size:30px;
+  border-radius:50%;
+  text-decoration:none;
+  box-shadow:0 6px 18px rgba(0,0,0,0.35);
+}
+.whatsapp-float a:hover{
+  transform:scale(1.08);
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  .header h1{font-size:22px}
+  .content p{font-size:15.5px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>NALCO Officer's Association Damanjodi Updates</h1>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+
+  <!-- META -->
+  <div class="meta">
+    <span>📅 Published on: 28 December 2025</span>
+    <span>Source: National News</span>
+    <span>Category: Judiciary & Environment</span>
+  </div>
+
+  <!-- IMAGE -->
+  <img 
+    src="https://lh3.googleusercontent.com/d/1GChDr4PFzoa9yQveO6Gzh1FnesTxCE3LNOA" 
+    alt="Supreme Court on Aravalli Mining Rules"
+    class="news-img"
+  >
+
+  <!-- TEXT -->
+  <div class="content">
+
+    <p>
+      The <strong>Supreme Court of India</strong> has put on hold its November 20 ruling that
+      limited the definition of the <strong>Aravalli range</strong> to landforms rising
+      more than <strong>100 metres</strong> above the surrounding terrain. The court has
+      decided to reopen the matter for a comprehensive review.
+    </p>
+
+    <p>
+      A bench led by <strong>Chief Justice of India Surya Kant</strong>, along with
+      Justices <strong>J.K. Maheshwari</strong> and <strong>A.G. Masih</strong>, placed the
+      earlier judgment “in abeyance” and indicated the need for expert inputs to ensure a
+      balanced and scientifically sound approach.
+    </p>
+
+    <div class="highlight">
+      The court proposed the formation of a high-level expert committee to study ecological
+      continuity, assess the scientific basis of the height-based definition, and examine
+      the regulation of mining activities across the Aravalli region.
+    </div>
+
+    <p>
+      The issue was taken up <strong>suo motu</strong> on December 27 after the earlier
+      ruling attracted criticism from environmental experts and stakeholders. During the
+      hearing, the bench observed that an independent and impartial expert opinion was
+      essential to address unresolved concerns.
+    </p>
+
+    <p>
+      <strong>Solicitor General Tushar Mehta</strong>, appearing for the Union government,
+      welcomed the court’s intervention and noted that several misunderstandings had
+      emerged following the November order. He pointed out that the ruling had relied on a
+      court-appointed expert report and had envisaged a detailed mining plan subject to
+      Supreme Court approval.
+    </p>
+
+    <p>
+      The bench expressed concern that restricting the Aravallis to elevations above
+      100 metres could reduce protected areas and create regulatory gaps. It questioned
+      how mining would be governed in zones lying between qualifying hill formations,
+      warning that such an approach could fragment a continuous ecological system.
+    </p>
+
+    <p>
+      Emphasising the need to preserve the geological and ecological integrity of the
+      ancient mountain range, the court suggested that a broader environmental assessment
+      may be necessary to avoid weakening existing safeguards.
+    </p>
+
+    <p>
+      At the request of the Solicitor General, the court directed the Union government to
+      submit its response before finalising the composition of the expert committee.
+      Notices have been issued to the Centre, concerned states and the amicus curiae.
+      The matter will be heard next on <strong>January 21, 2026</strong>.
+    </p>
+
+    <p>
+      The interim stay is expected to pause the mapping and delineation exercise initiated
+      by the Union environment ministry and state governments, which was based on the
+      now-suspended elevation criterion.
+    </p>
+
+    <p>
+      Stretching over <strong>700 kilometres</strong> from Gujarat to Delhi through
+      Rajasthan and Haryana, the <strong>Aravalli range</strong> plays a crucial role in
+      preventing desertification, replenishing groundwater and sustaining biodiversity
+      across northern and western India.
+    </p>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <a href="https://www.noadamanjodi.com" target="_blank">
+      www.noadamanjodi.com
+    </a>
+  </div>
+
+</div>
+
+<!-- FLOATING WHATSAPP BUTTON -->
+<div class="whatsapp-float">
+  <a href="#"
+     onclick="window.open('https://wa.me/?text=' + encodeURIComponent(document.title + ' - ' + window.location.href)); return false;"
+     title="Share on WhatsApp">
+    📲
+  </a>
+</div>
+
+</body>
+</html>
